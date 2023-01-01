@@ -1,0 +1,6 @@
+const crimes = [
+    {
+        crime: '',
+        fine: '',
+    }
+]

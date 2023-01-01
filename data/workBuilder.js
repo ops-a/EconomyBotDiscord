@@ -16,7 +16,7 @@ const works = [
         earn: 60,
     },
     {
-        job: 'Cook you meal ',
+        job: 'Cook your meal ',
         earn: 20,
     },
     {
