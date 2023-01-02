@@ -13,7 +13,13 @@ const withdrawMoney = async (interaction) => {
           `You don't have any money in bank. Bank balance: ${user.bankbalance}`
         );
       } else {
-        updateUserBalance(user.bankbalance, -user.bankbalance);
+        updateUserBalance(
+          user.cashinhand + user.bankbalance,
+          user.bankbalance - user.bankbalance,
+          user.userid
+        );
+
+        interaction.reply(`Withdrawn ${user.bankbalance} from bank.`);
       }
       return;
     }
@@ -27,7 +33,13 @@ const withdrawMoney = async (interaction) => {
         `You don't have enough bank balance. Bank Balance: ${user.bankbalance}`
       );
     } else {
-      updateUserBalance(amount, -amount);
+      updateUserBalance(
+        user.cashinhand + amount,
+        user.bankbalance - amount,
+        user.userid
+      );
+
+      interaction.reply(`Withdrawn ${amount} from bank.`);
     }
   } else {
     interaction.reply(

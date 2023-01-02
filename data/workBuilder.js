@@ -1,14 +1,14 @@
 const works = [
     {
-        job: 'You job as a farmer ',
+        job: 'You work as a farmer ',
         earn: 50,
     },
     {
-        job: 'You job as a milkman ',
+        job: 'You work as a milkman ',
         earn: 30,
     },
     {
-        job: 'You job as a make up artist ',
+        job: 'You work as a make up artist ',
         earn: 80,
     },
     {

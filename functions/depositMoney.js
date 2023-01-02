@@ -14,7 +14,12 @@ const depositMoney = async (interaction) => {
           `You don't have any cash. Cash balance: ${user.bankbalance}`
         );
       } else {
-        updateUserBalance(-user.cashinhand, user.cashinhand);
+        updateUserBalance(
+          user.cashinhand - user.cashinhand,
+          user.bankbalance + user.cashinhand,
+          user.userid
+        );
+        interaction.reply(`Deposited ${user.cashinhand} to bank.`);
       }
 
       return;
@@ -29,7 +34,12 @@ const depositMoney = async (interaction) => {
         `You don't have enough cash. Cash Balance: ${user.cashinhand}`
       );
     } else {
-      updateUserBalance(-amount, amount);
+      updateUserBalance(
+        user.cashinhand - amount,
+        user.bankbalance + amount,
+        user.userid
+      );
+      interaction.reply(`Deposited ${amount} to bank.`);
     }
   } else {
     interaction.reply(
