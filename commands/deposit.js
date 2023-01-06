@@ -5,10 +5,11 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("dp")
     .setDescription("Deposit money")
-    .addStringOption((option) =>
+    .addIntegerOption((option) =>
       option
         .setName("amount")
         .setDescription("The amount to be deposited.")
+        .setMinValue(1)
         .setRequired(true)
     ),
   async execute(interaction) {
