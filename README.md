@@ -11,7 +11,7 @@
 7. **/crime** - A 50/50 chance that the user earns/loses tokens. A time limit of 6 hours.
 8. **/rob** - A 50/50 chance that a user successfully robs another user's cash. Otherwise is fined. A time limit of 6 hours.
 9. **/slut** - A 50/50 chance that user earns/loses money by engaging in sexual activities. A time limit of 12 hours.
-10. **/bj** - Play the blackjack game. A time limit of 6 hours.
+10. **/bj <amount>** - Play the blackjack game and bet the specified <amount>. A time limit of 6 hours.
 
 ## Database Lookup commands
 

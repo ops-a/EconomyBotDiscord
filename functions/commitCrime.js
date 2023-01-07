@@ -3,7 +3,7 @@ const getUserInfo = require("../db/getUserInfo");
 const updateUserBalance = require("../db/updateUserBalance");
 
 const commitCrime = async (interaction) => {
-  const userId = interaction.user.id;
+  const userId = await interaction.user.id;
   const user = await getUserInfo(userId);
 
   const crimeCommited = randomCrime();

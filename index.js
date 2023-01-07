@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
 const performChecks = require("./functions/performChecks");
+const handleBtn = require("./buttons/primaryBtn");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -29,6 +30,10 @@ for (const file of commandFiles) {
 
 client.on(Events.InteractionCreate, async (interaction) => {
   // If not a slash command, return
+  if(interaction.isButton()) {
+    await handleBtn(interaction);
+    
+  }
   if (!interaction.isChatInputCommand()) return;
 
   const command = interaction.client.commands.get(interaction.commandName);

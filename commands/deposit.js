@@ -13,6 +13,6 @@ module.exports = {
         .setRequired(true)
     ),
   async execute(interaction) {
-    await depositMoney(interaction);
+    await depositMoney(interaction, false);
   },
 };
