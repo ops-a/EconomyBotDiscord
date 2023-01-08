@@ -6,6 +6,6 @@ module.exports = {
     .setName("bal")
     .setDescription("Displays the balance info."),
   async execute(interaction) {
-    displayBalance(interaction);
+    await displayBalance(interaction);
   },
 };

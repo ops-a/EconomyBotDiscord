@@ -6,6 +6,6 @@ module.exports = {
     .setName("connect")
     .setDescription("Registers the user to the database."),
   async execute(interaction) {
-    addUser(interaction);
+    await addUser(interaction);
   },
 };

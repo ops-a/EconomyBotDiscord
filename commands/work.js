@@ -7,6 +7,5 @@ module.exports = {
     .setDescription("Do some work and earn."),
   async execute(interaction) {
     await provideWork(interaction);
-
   },
 };

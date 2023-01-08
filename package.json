@@ -19,6 +19,10 @@
     "pg-promise": "^11.0.2",
     "postgres": "^3.3.2"
   },
+  "nodemonConfig": {
+    "ext": "js"
+
+  },
   "devDependencies": {
     "nodemon": "^2.0.20"
   }
