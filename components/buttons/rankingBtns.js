@@ -7,14 +7,14 @@ const buildBtns = (prevState, nextState) => {
         .setCustomId("prev_btn")
         .setLabel("Previous")
         .setStyle(ButtonStyle.Primary)
-        .setDisabled(prevState)
+        .setDisabled(!prevState)
     )
     .addComponents(
       new ButtonBuilder()
         .setCustomId("next_btn")
         .setLabel("Next")
         .setStyle(ButtonStyle.Primary)
-        .setDisabled(nextState)
+        .setDisabled(!nextState)
     );
 
     return row;
