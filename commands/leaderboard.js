@@ -17,17 +17,10 @@ module.exports = {
     // inside a command, event listener, etc.
 
     // const rankEmbed = newEmbed(1);
-    console.log("interaction: ", interaction);
-    // await interaction.reply({
-    //   content: "Interaction: ",
-    //   embeds: [newEmbed(1)],
-    //   ephemeral: true,
-    //   components: [buildBtns(false, true)],
-    // });
     await interaction.reply({
-      content: "Interaction: ",
       embeds: [newEmbed(1)],
       components: [buildBtns(false, true)],
+      ephemeral: true
     });
     // await showLeaderboard(interaction);
   },

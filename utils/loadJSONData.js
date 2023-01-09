@@ -7,7 +7,7 @@ const loadJSONasObject = (fileName) => {
   return JSON.parse(file);
 };
 
-const storeObjasJSON = (data, fileName) => {
+const storeObjasJSON = (fileName, data) => {
   const filePath = path.join(__dirname, "..", "data", fileName);
   fs.writeFileSync(filePath, JSON.stringify(data));
 };
