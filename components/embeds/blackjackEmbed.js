@@ -1,21 +1,16 @@
 const { EmbedBuilder } = require("discord.js");
-const cardEmojis = require("../../data/cardEmojis");
-const { storeObjasJSON, loadJSONasObject } = require("../../utils/loadJSONData");
+const { loadJSONasObject } = require("../../utils/loadJSONData");
 
 // The embed would contain
-const getblackjackEmbed = (id) => {
+const getblackjackEmbed = (id, fieldStr) => {
   const { userCards, dealerCards, userValue, dealerValue } = getFieldValues(id);
 
   const newEmbed = new EmbedBuilder()
     .setTitle("Try your luck with BlackJack")
     .setColor(0x0099ff)
-    .setDescription(null)
+    .setDescription(fieldStr)
     .setTimestamp()
     .addFields([
-      {
-        name: "Instructions",
-        value: "hit: pull another card\nstand: commit to the total\n\n",
-      },
       {
         name: "Your Hand",
         value: `${userCards} \n\nvalue: ${userValue}\n\n`,
@@ -30,8 +25,7 @@ const getblackjackEmbed = (id) => {
 };
 
 const getFieldValues = (id) => {
-  const gameData = loadJSONasObject("bjGameData.json")
-  return gameData[id]
-
+  const gameData = loadJSONasObject("bjGameData.json");
+  return gameData[id];
 };
 module.exports = getblackjackEmbed;

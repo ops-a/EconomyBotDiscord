@@ -14,9 +14,17 @@ const blackjackHandler = async (interaction) => {
   //   interaction.user.id,
   //   2
   // );
+  const userId = interaction.user.id;
+  const gameData = loadJSONasObject("bjGameData.json")
+  if(gameData[userId]) {
+    await interaction.reply({ content: "Finish your last game first.", ephemeral: true})
+    return;
+  }
 
-  newCardsObj(interaction.user.id)
-  const newEmbed = getblackjackEmbed(interaction.user.id);
+  newCardsObj(userId)
+
+  let descStr = "Instructions:\nhit: pull another card\nstand: end your turn"
+  const newEmbed = getblackjackEmbed(userId, descStr);
   const newBtnRow = getBJBtns(true);
 
   await interaction.reply({
@@ -30,13 +38,14 @@ const blackjackHandler = async (interaction) => {
 const addCardToUser = (id) => {
   const gameData = loadJSONasObject("bjGameData.json");
   const userCard = randomCard(cardEmojis);
+  console.log("User card: ", userCard);
 
   gameData[id].userCards.push(userCard.card);
   gameData[id].userValue += userCard.value;
 
   storeObjasJSON("bjGameData.json", gameData);
 
-  return gameData[id];
+  return gameData[id].userValue;
 };
 
 const addCardToDealer = (id) => {
@@ -48,7 +57,7 @@ const addCardToDealer = (id) => {
 
   storeObjasJSON("bjGameData.json", gameData);
 
-  return gameData[id];
+  return gameData[id].dealerValue;
 };
 
 const newCardsObj = (id) => {
