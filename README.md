@@ -29,3 +29,11 @@
 16. **/removeworkrole <role>** - Removes the role from the list of the work roles.
 16. **/removerole <role> <user>** - Remove a certain role from the user.
 17. **/setrole <role> <user>** - Set a certain role to the user.
+
+## Time limits
+
+1. **/work** - 24 hours.
+2. **/crime** - 12 hours.
+3. **/slut** - 12 hours.
+4. **/collect** - 24 hours.
+5. **/bj <amount>** - NA

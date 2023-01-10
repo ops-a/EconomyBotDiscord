@@ -32,8 +32,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
   // If not a slash command, return
   if(interaction.isButton()) {
     await handleBtns(interaction);
-    
+    return;
   }
+
   if (!interaction.isChatInputCommand()) return;
 
   const command = interaction.client.commands.get(interaction.commandName);

@@ -13,6 +13,9 @@ const addUser = async (interaction) => {
     "insert into users values($1, $2, $3, $4) returning username",
     [id, 0, 0, username]
   );
+
+  await db.none("insert into cmd_tstamps values($1, now(), now(), now(), now())", id)
+
   if (user1) {
     await interaction.reply(
       `User ${interaction.user} has been successfully registered.`
