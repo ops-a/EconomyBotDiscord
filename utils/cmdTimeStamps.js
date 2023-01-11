@@ -14,7 +14,7 @@ const readLastTimeStamp = async (cmdName, id) => {
 
   if (cmdName === "crime" || cmdName === "slut") {
     time_limit *= 12;
-  } else if (cmdName === "work" || cmdName === "collect") {
+  } else if (cmdName === "work" || cmdName === "collect" || cmdName === "rob") {
     time_limit *= 24;
   }
 

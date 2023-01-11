@@ -1,30 +1,33 @@
 const { loadJSONasObject, storeObjasJSON } = require("../utils/loadJSONData");
 
+/*
+  Admin only.
+  Removes the work role from the workRoles.json in ../data:
+  {
+    <id>: <name>,
+    <id>: <name>,
+  }
+*/
 const removeWorkRoleHandler = async (interaction) => {
-
   const role = interaction.options.getRole("role");
-  const dataObj = loadJSONasObject("workRoles.json");
-  const roleIndex = dataObj.roleIds.indexOf(role.id);
+  const workRoles = loadJSONasObject("workRoles.json");
 
-  if (roleIndex === -1) {
+  if (!workRoles[role.id]) {
     await interaction.reply({
       content: "Cannot remove unset role.",
       ephemeral: true,
     });
   } else {
-    // Remove both role name and role id 
-    dataObj.workRoles.splice(roleIndex, 1);
-    dataObj.roleIds.splice(roleIndex, 1);
-
-    storeObjasJSON(dataObj, "workRoles.json")
+    // Remove the role
+    delete workRoles[role.id];
+    storeObjasJSON("workRoles.json", workRoles);
 
     await interaction.reply({
       content: `Role ${role} successfully removed from work role.`,
       ephemeral: true,
     });
   }
-  console.log("interaction role added: ", role.name);
-//   await interaction.reply({ content: `role: ${role}`, ephemeral: true });
+  console.log("work role removed: ", role.name);
 };
 
 module.exports = removeWorkRoleHandler;

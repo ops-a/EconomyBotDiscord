@@ -14,7 +14,7 @@ const addUser = async (interaction) => {
     [id, 0, 0, username]
   );
 
-  await db.none("insert into cmd_tstamps values($1, now(), now(), now(), now())", id)
+  await db.none("insert into cmd_tstamps values($1, now(), now(), now(), now(), now())", id)
 
   if (user1) {
     await interaction.reply(

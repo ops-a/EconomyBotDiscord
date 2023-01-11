@@ -8,6 +8,7 @@ const {
 const getblackjackEmbed = require("../components/embeds/blackjackEmbed");
 const getBJBtns = require("../components/buttons/blackjackBtns");
 const { loadJSONasObject, storeObjasJSON } = require("../utils/loadJSONData");
+const { messageLink, quote, hyperlink } = require("discord.js");
 
 const handleBtns = async (interaction) => {
   const buttonId = await interaction.customId;
@@ -52,13 +53,28 @@ const updateBJ = async (interaction) => {
   const buttonId = interaction.customId;
   const userId = interaction.user.id;
   const playerId = interaction.message.interaction.user.id;
+
+  const msgLink = messageLink(interaction.channelId, interaction.message.id);
+  const hyperL = hyperlink("view", msgLink)
+  const opts = interaction.options;
+  console.log("int: ", interaction, "\n\nopts: ", opts);
+  await interaction.reply({
+    content: quote(
+      `msg: <@${
+        interaction.message.interaction.message
+      }> msg int: ${messageLink(interaction.channelId, interaction.message.id)}\n link: ${hyperL}`
+    ),
+    ephemeral: true,
+  });
+
+  return;
   let showBtns = true;
 
   if (userId !== playerId) {
     await interaction.reply("You don't have this permission.");
     return;
   }
-  
+
   let userValue = getUserValue(userId);
 
   if (buttonId === "hit_btn") {
@@ -76,24 +92,23 @@ const updateBJ = async (interaction) => {
     showBtns = false;
   }
 
-  let descStr = "Instructions:\nhit: pull another card\nstand: end your turn"
+  let descStr = "Instructions:\nhit: pull another card\nstand: end your turn";
 
-  if(!showBtns) {
+  if (!showBtns) {
     const userValue = getUserValue(userId);
     const dealerValue = getDealerValue(userId);
 
-    if(userValue === 21) {
-      descStr = "Result: You win!"
+    if (userValue === 21) {
+      descStr = "Result: You win!";
     } else if (userValue > 21) {
-      descStr = "Result: You lose!"
-    } else if(dealerValue > 21) {
-      descStr = "Result: You win!"
-    } else if(userValue < dealerValue) {
-      descStr = "Result: You lose!"
+      descStr = "Result: You lose!";
+    } else if (dealerValue > 21) {
+      descStr = "Result: You win!";
+    } else if (userValue < dealerValue) {
+      descStr = "Result: You lose!";
     } else {
-      descStr = "Result: You win!"
+      descStr = "Result: You win!";
     }
-
   }
 
   const newBJEmbed = getblackjackEmbed(userId, descStr);
@@ -113,13 +128,11 @@ const updateBJ = async (interaction) => {
 };
 
 const getUserValue = (id) => {
-  const gameData = loadJSONasObject("bjGameData.json")
+  const gameData = loadJSONasObject("bjGameData.json");
   return gameData[id].userValue;
-
-}
+};
 const getDealerValue = (id) => {
-  const gameData = loadJSONasObject("bjGameData.json")
+  const gameData = loadJSONasObject("bjGameData.json");
   return gameData[id].dealerValue;
-
-}
+};
 module.exports = handleBtns;

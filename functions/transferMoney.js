@@ -1,5 +1,5 @@
-const getUserInfo = require('../db/getUserInfo');
-const updateUserBalance = require('../db/updateUserBalance')
+const getUserInfo = require("../db/getUserInfo");
+const updateUserBalance = require("../db/updateUserBalance");
 
 const transferMoney = async (interaction) => {
   const senderId = interaction.user.id;
@@ -10,29 +10,40 @@ const transferMoney = async (interaction) => {
 
   const sender = await getUserInfo(senderId);
   const recipient = await getUserInfo(recipientId);
-  
-  console.log('sender: ', sender);
-  console.log('recipient: ', recipient);
 
-  if(!recipient) {
-    await interaction.reply(`The user ${mentionedUser} is not registered. Unable to perform transaction. `)
+  console.log("sender: ", sender);
+  console.log("recipient: ", recipient);
+
+  if (!recipient) {
+    await interaction.reply(
+      `The user ${mentionedUser} is not registered. Unable to perform transaction. `
+    );
     return;
   }
 
-  if(sender.cashinhand + sender.bankbalance < amount) {
-    await interaction.reply("You don't have enough money. Transaction failed.")
+  if (sender.cashbalance + sender.bankbalance < amount) {
+    await interaction.reply("You don't have enough money. Transaction failed.");
     return;
   }
 
-  console.log('Cash: ', sender.cashinhand, ' bank: ', sender.bankbalance);
-  console.log('Cash: ', sender.cashinhand, ' bank: ', sender.bankbalance);
-  console.log('amount: ', amount);
+  // console.log('Cash: ', sender.cashinhand, ' bank: ', sender.bankbalance);
+  // console.log('Cash: ', sender.cashinhand, ' bank: ', sender.bankbalance);
+  // console.log('amount: ', amount);
 
-  await updateUserBalance(sender.cashinhand - amount, sender.bankbalance,  senderId)
-  await updateUserBalance(recipient.cashinhand + amount, recipient.bankbalance,  recipientId)
+  await updateUserBalance(
+    sender.cashbalance - amount,
+    sender.bankbalance,
+    senderId
+  );
+  await updateUserBalance(
+    recipient.cashbalance + amount,
+    recipient.bankbalance,
+    recipientId
+  );
 
-  await interaction.reply(`You have transferred ${amount} to ${mentionedUser}.`)
-
+  await interaction.reply(
+    `You have transferred ${amount} to ${mentionedUser}.`
+  );
 };
 
 module.exports = transferMoney;

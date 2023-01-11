@@ -1,11 +1,11 @@
 const { SlashCommandBuilder } = require("discord.js");
+const helpHandler = require("../functions/helpHandler");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("help")
-    .setDescription("Displays userful information about the bot."),
+    .setDescription("Get to know about my features."),
   async execute(interaction) {
-    console.log("Useful Info");
-    interaction.reply('Useful info')
+    await helpHandler(interaction);
   },
 };

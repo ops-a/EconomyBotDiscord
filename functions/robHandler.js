@@ -1,6 +1,10 @@
 const getUserInfo = require("../db/getUserInfo");
-const { bold } = require('discord.js')
+const { bold } = require("discord.js");
 const updateUserBalance = require("../db/updateUserBalance");
+const {
+  readLastTimeStamp,
+  writeLastTimeStamp,
+} = require("../utils/cmdTimeStamps");
 
 const robHandler = async (interaction) => {
   console.log("user ", interaction.user.id, " ");
@@ -12,7 +16,21 @@ const robHandler = async (interaction) => {
   const user = await getUserInfo(userId);
   const taggedUser = await getUserInfo(taggedUserId);
 
-//   console.log('mentioned User: ', taggedUser)
+  const { hours, mins } = await readLastTimeStamp("rob", userId);
+
+  if (mins > 0) {
+    let reply = "You must wait ";
+    if (hours > 0) {
+      reply += bold(`${hours}h ${mins}m`);
+    } else {
+      reply += bold(mins + "m");
+    }
+    reply += " to rob again. Take some rest.";
+    await interaction.reply({ content: reply, ephemeral: true });
+    return;
+  }
+
+  //   console.log('mentioned User: ', taggedUser)
   if (!taggedUser) {
     await interaction.reply(
       `Oh, no! ${userMention} is not registered. Use ${bold(
@@ -26,9 +44,9 @@ const robHandler = async (interaction) => {
   const amount = 50;
 
   if (earnOrLose) {
-    updateUserBalance(user.cashinhand + amount, user.bankbalance, userId);
-    updateUserBalance(
-      taggedUser.cashinhand - amount,
+    await updateUserBalance(user.cashbalance + amount, user.bankbalance, userId);
+    await updateUserBalance(
+      taggedUser.cashbalance - amount,
       taggedUser.bankbalance,
       taggedUserId
     );
@@ -36,9 +54,9 @@ const robHandler = async (interaction) => {
       `You successfully robbed ${userMention} of ${amount}.`
     );
   } else {
-    updateUserBalance(user.cashinhand - amount, user.bankbalance, userId);
-    updateUserBalance(
-      taggedUser.cashinhand + amount,
+    await updateUserBalance(user.cashbalance - amount, user.bankbalance, userId);
+    await updateUserBalance(
+      taggedUser.cashbalance + amount,
       taggedUser.bankbalance,
       taggedUserId
     );
@@ -47,7 +65,7 @@ const robHandler = async (interaction) => {
     );
   }
 
-//   await interaction.reply("rob");
+  await writeLastTimeStamp("rob", userId);
 };
 
 module.exports = robHandler;

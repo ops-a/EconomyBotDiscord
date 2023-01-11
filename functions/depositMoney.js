@@ -2,29 +2,43 @@ const getUserInfo = require("../db/getUserInfo");
 const updateUserBalance = require("../db/updateUserBalance");
 
 const depositMoney = async (interaction, all) => {
-  const amount = interaction.options.getInteger("amount");
+  let amount = interaction.options.getInteger("amount");
   const user = await getUserInfo(interaction.user.id);
 
-  const cash = user.cashinhand;
+  const cash = user.cashbalance;
 
-  if (all) {
-    if (cash === 0) {
-      interaction.reply("You have 0 cash.");
-    } else {
-      updateUserBalance(cash - cash, user.bankbalance + cash, user.userId);
-      interaction.reply(`Deposited ${cash} to bank balance.`);
-    }
-
-    return;
+  if(all) {
+    amount = user.cashbalance;
   }
 
-  if (amount > user.cashinhand) {
-    interaction.reply(
-      `You don't have enough cash. Cash Balance: ${user.cashinhand}`
+  // If /dpall command is used, deposit all cash to bank.
+  // if (all) {
+  //   if (cash === 0) {
+  //     await interaction.reply("You have 0 cash.");
+  //   } else {
+  //     console.log("Cash depostiing: ", cash)
+  //     await updateUserBalance(
+  //       cash - cash,
+  //       user.bankbalance + cash,
+  //       user.userId
+  //     );
+  //     await interaction.reply(`Deposited ${cash} to bank balance.`);
+  //   }
+
+  //   return;
+  // }
+
+  if (amount > cash || cash === 0) {
+    await interaction.reply(
+      `You don't have enough cash. Cash Balance: ${cash}`
     );
   } else {
-    updateUserBalance(cash - amount, user.bankbalance + amount, user.userid);
-    interaction.reply(`Deposited ${amount} to bank.`);
+    await updateUserBalance(
+      cash - amount,
+      user.bankbalance + amount,
+      user.userid
+    );
+    await interaction.reply(`Deposited ${amount} to bank.`);
   }
 };
 

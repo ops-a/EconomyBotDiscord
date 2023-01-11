@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const setWorkRoleHandler = require("../functions/setWorkRoleHandler");
+const addWorkRoleHandler = require("../functions/addWorkRoleHandler");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,6 +13,6 @@ module.exports = {
     )
     .setDefaultMemberPermissions(0),
   async execute(interaction) {
-    await setWorkRoleHandler(interaction);
+    await addWorkRoleHandler(interaction);
   },
 };

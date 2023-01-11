@@ -3,7 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
 const performChecks = require("./functions/performChecks");
-const handleBtns = require("./buttons/handleBtns");
+const handleBtns = require("./buttonHandlers/handleBtns");
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 

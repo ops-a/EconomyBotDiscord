@@ -8,13 +8,13 @@ module.exports = {
     .addRoleOption((option) =>
       option
         .setName("role")
-        .setDescription("the role to be assigned")
+        .setDescription("Specify the role to be assigned.")
         .setRequired(true)
     )
     .addUserOption((option) =>
       option
         .setName("user")
-        .setDescription("The user to assign role to")
+        .setDescription("The user to assign the role to.")
         .setRequired(true)
     )
     .setDefaultMemberPermissions(0),

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const robHandler = require('../functions/robHandler')
+const robHandler = require("../functions/robHandler");
 
 module.exports = {
   data: new SlashCommandBuilder()

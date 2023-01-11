@@ -36,4 +36,5 @@
 2. **/crime** - 12 hours.
 3. **/slut** - 12 hours.
 4. **/collect** - 24 hours.
-5. **/bj <amount>** - NA
+5. **/rob** - 24 hours.
+6. **/bj <amount>** - NA

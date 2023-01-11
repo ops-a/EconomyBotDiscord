@@ -1,11 +1,11 @@
 const { SlashCommandBuilder } = require("discord.js");
+const collectHandler = require("../functions/collectHandler");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("collect")
-    .setDescription("Collect your role income.")
-    .setDefaultMemberPermissions(0),
+    .setDescription("Collect your role income."),
   async execute(interaction) {
-    await interaction.reply({ content: "This command is not functional yet." });
+    await collectHandler(interaction);
   },
 };

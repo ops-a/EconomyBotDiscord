@@ -1,9 +1,5 @@
-const a = [1, 2, 3, 4]
+const { loadJSONasObject } = require('./utils/loadJSONData')
 
-const changeArr = (arr) => {
-    arr.pop();
-}
+const data = loadJSONasObject("incomeRoles.json")
 
-console.log("a: ", a);
-changeArr(a)
-console.log("a: ", a);
+console.log("json obj: ", data);
