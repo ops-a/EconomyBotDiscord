@@ -1,7 +1,7 @@
 const db = require('./dbConnect')
 
-const readCardsFromDB = async (id) => {
-  const row = await db.one("select * from blackjack where int_id=$1", id);
+const readCardsFromDB = async (intId) => {
+  const row = await db.one("select * from blackjack where int_id=$1", intId);
   console.log("Blackjack row: ", row);
   return row;
 };

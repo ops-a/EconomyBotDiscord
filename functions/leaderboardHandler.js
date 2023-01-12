@@ -4,11 +4,14 @@ const newEmbed = require("../components/embeds/rankingsEmbed");
 
 const leaderboardHandler = async (interaction) => {
   // const rankEmbed = newEmbed(1);
-  const embed = await newEmbed(1);
+  const { exampleEmbed, len } = await newEmbed(1);
 
-  await interaction.reply({
-    embeds: [embed],
-    components: [buildBtns(false, true)],
+  let next_btn = len > 10;
+
+  await interaction.deferRelpy();
+  await interaction.editReply({
+    embeds: [exampleEmbed],
+    components: [buildBtns(false, next_btn)],
   });
 };
 

@@ -9,12 +9,14 @@ const getblackjackEmbed = require("../components/embeds/blackjackEmbed");
 const getBJBtns = require("../components/buttons/blackjackBtns");
 const { loadJSONasObject, storeObjasJSON } = require("../utils/loadJSONData");
 const { messageLink, quote, hyperlink } = require("discord.js");
+const bjBtnHandler = require("./blackjackBtns");
 
 const handleBtns = async (interaction) => {
-  const buttonId = await interaction.customId;
+  await interaction.deferUpdate();
 
+  const buttonId = await interaction.customId;
   if (buttonId === "hit_btn" || buttonId == "stand_btn") {
-    await updateBJ(interaction);
+    await bjBtnHandler(interaction);
     return;
   }
 
@@ -67,7 +69,7 @@ const updateBJ = async (interaction) => {
     ephemeral: true,
   });
 
-  return;
+  // return;
   let showBtns = true;
 
   if (userId !== playerId) {

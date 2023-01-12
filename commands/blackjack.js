@@ -13,6 +13,7 @@ module.exports = {
         .setMinValue(50)
     ),
   async execute(interaction) {
+    await interaction.deferReply();
     await blackjackHandler(interaction);
   },
 };

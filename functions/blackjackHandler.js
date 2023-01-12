@@ -30,7 +30,7 @@ const blackjackHandler = async (interaction) => {
 
   console.log("User's cash: ", user.cashbalance);
   // if(user.cashbalance < amount) {
-  //   await interaction.reply({ content: `You don't have enough cash balance.`, ephemeral: true })
+  //   await interaction.editReply({ content: `You don't have enough cash balance.`, ephemeral: true })
   //   return;
   // }
 
@@ -70,20 +70,19 @@ const blackjackHandler = async (interaction) => {
   );
 
   // Save the remaining cards to the json file
-  storeObjasJSON("remainingCards.jons", remCardsObj);
+  storeObjasJSON("remainingCards.json", remCardsObj);
 
-  // await interaction.reply({ content: `int id: ${intid}, int: ${interaction.message}`})
+  // await interaction.editReply({ content: `int id: ${intid}, int: ${interaction.message}`})
 
-  let descStr = "Instructions:\nhit: pull another card\nstand: end your turn";
 
   // Build an embed using desc str and interaction id
-  const newEmbed = await getblackjackEmbed(intId, descStr);
+  const newEmbed = await getblackjackEmbed(intId, "");
   console.log("newEmbed: ", newEmbed);
 
   // Get hit and stand buttons
   const newBtnRow = getBJBtns(true);
 
-  await interaction.reply({
+  await interaction.editReply({
     embeds: [newEmbed],
     components: [newBtnRow],
     ephemeral: true,
@@ -97,65 +96,7 @@ const randomCard = (cards) => {
   return { card, value };
 };
 
-// Adds new cards or initializes a new game object and returns cards and values
-const addCardToUser = (id) => {
-  const gameData = loadJSONasObject("bjGameData.json");
-  const userCard = randomCard(cardEmojis);
-  console.log("User card: ", userCard);
-
-  gameData[id].userCards.push(userCard.card);
-  gameData[id].userValue += userCard.value;
-
-  storeObjasJSON("bjGameData.json", gameData);
-
-  return gameData[id].userValue;
-};
-
-const addCardToDealer = (id) => {
-  const gameData = loadJSONasObject("bjGameData.json");
-  const dealerCard = randomCard(cardEmojis);
-
-  gameData[id].dealerCards.push(dealerCard.card);
-  gameData[id].dealerValue += dealerCard.value;
-
-  storeObjasJSON("bjGameData.json", gameData);
-
-  return gameData[id].dealerValue;
-};
-
-const newCardsObj = (id) => {
-  const gameData = loadJSONasObject("bjGameData.json");
-
-  if (gameData[id] === undefined) {
-    gameData[id] = {
-      userCards: [],
-      dealerCards: [],
-      userValue: 0,
-      dealerValue: 0,
-    };
-  }
-
-  for (let i = 0; i < 2; i++) {
-    const userCard = randomCard(cardEmojis);
-    const dealerCard = randomCard(cardEmojis);
-
-    gameData[id].userCards.push(userCard.card);
-    gameData[id].dealerCards.push(dealerCard.card);
-    gameData[id].userValue += userCard.value;
-    gameData[id].dealerValue += dealerCard.value;
-  }
-
-  // const gameData = loadJSONasObject("bjGameData.json");
-
-  storeObjasJSON("bjGameData.json", gameData);
-
-  return gameData[id];
-};
-
-// Removes a card and  and return the card and the its value
 module.exports = {
   blackjackHandler,
   randomCard,
-  addCardToDealer,
-  addCardToUser,
 };

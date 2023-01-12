@@ -3,19 +3,23 @@
 */
 const { EmbedBuilder } = require("discord.js");
 const { readCardsFromDB } = require("../../db/bjCardOps");
+const { bold } = require("discord.js");
 
-const getblackjackEmbed = async (id, fieldStr) => {
+const getblackjackEmbed = async (intId, fieldStr) => {
   // Get userCards, dealerCards, userValue, dealerValue from the db.
   const { user_cards, dealer_cards, user_value, dealer_value } =
-    await readCardsFromDB(id);
-  // console.log("Row: ", row);
-  console.log("user_cards: ", user_cards, " dealer_value: ", dealer_value);
+    await readCardsFromDB(intId);
+
+  // If fieldStr is empty, add the default;
+  fieldStr =
+    fieldStr || "Instructions:\nhit: pull another card\nstand: end your turn";
+  console.log("fieldStr: ", fieldStr);
 
   // Then build a new embed using those values
   const newEmbed = new EmbedBuilder()
     .setTitle("Try your luck with BlackJack")
     .setColor(0x0099ff)
-    .setDescription(fieldStr)
+    .setDescription(bold(fieldStr))
     .setTimestamp()
     .addFields([
       {
@@ -26,7 +30,7 @@ const getblackjackEmbed = async (id, fieldStr) => {
       {
         name: "Dealer's Hand",
         // value: "value",
-        value: `${dealer_cards} \nvalue: ${dealer_value}`,
+        value: `${dealer_cards} \n\nvalue: ${dealer_value}`,
       },
     ]);
 

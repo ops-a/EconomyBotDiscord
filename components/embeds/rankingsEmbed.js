@@ -1,4 +1,4 @@
-const { EmbedBuilder, time } = require("discord.js");
+const { EmbedBuilder, time, userMention } = require("discord.js");
 
 // const leaders = [];
 
@@ -23,7 +23,7 @@ const getStrAndLen = async (pageNum) => {
 
   for (let i = 10 * (pageNum - 1); i < 10 * pageNum && i < values.length; i++) {
     const value = values[i];
-    str += `${i + 1}. ${value.username} : ${
+    str += `\n${i + 1}. ${userMention(value.userid)}  : ${
       value.cashbalance + value.bankbalance
     }`;
   }
@@ -40,7 +40,7 @@ const newEmbed = async (pageNum) => {
   const exampleEmbed = new EmbedBuilder()
     .setColor(0x0099ff)
     .setTitle("CannaFarm Club Leaderboard")
-    .setDescription(`Rankings generated on ${time(newDate, "f")}`)
+    .setDescription(null)
     // .setThumbnail("https://i.imgur.com/AfFp7pu.png")
     // .addFields(
     //   { name: "Regular field title", value: "Some value here" },
@@ -49,8 +49,8 @@ const newEmbed = async (pageNum) => {
     //   { name: "Inline field title", value: "Some value here", inline: true }
     // )
     .addFields({
-      name: `${pageNum}`,
-      value: `${str}`,
+      name: `\nRankings generated on ${time(newDate, "f")}\n\n`,
+      value: `\n${str}`,
       inline: true,
     })
     // .setImage("https://i.imgur.com/AfFp7pu.png")
@@ -59,7 +59,7 @@ const newEmbed = async (pageNum) => {
       text: `Page ${pageNum} of ${Math.floor((len + 9) / 10)}`,
     });
 
-  return exampleEmbed.data;
+  return { exampleEmbed, len };
 };
 
 module.exports = newEmbed;
