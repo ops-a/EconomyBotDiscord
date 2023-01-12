@@ -29,10 +29,10 @@ const blackjackHandler = async (interaction) => {
   console.log("User: ", user);
 
   console.log("User's cash: ", user.cashbalance);
-  // if(user.cashbalance < amount) {
-  //   await interaction.editReply({ content: `You don't have enough cash balance.`, ephemeral: true })
-  //   return;
-  // }
+  if(user.cashbalance < amount) {
+    await interaction.editReply({ content: `You don't have enough cash balance.`, ephemeral: true })
+    return;
+  }
 
   // Check if the user has played three games in last one hour. If yes, tell them to wait for one hour from the last game and return. Otherwise, proceed.
 

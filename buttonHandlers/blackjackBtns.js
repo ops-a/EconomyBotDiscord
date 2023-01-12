@@ -5,6 +5,8 @@ const { loadJSONasObject, storeObjasJSON } = require("../utils/loadJSONData");
 const { randomCard } = require("../functions/blackjackHandler");
 const getblackjackEmbed = require("../components/embeds/blackjackEmbed");
 const getBJBtns = require("../components/buttons/blackjackBtns");
+const getUserInfo = require("../db/getUserInfo");
+const updateUserBalance = require("../db/updateUserBalance");
 
 const bjBtnHandler = async (interaction) => {
   const intId = interaction.message.interaction.id;
@@ -41,7 +43,9 @@ const bjBtnHandler = async (interaction) => {
 
 const updateGame = async (interaction, isDealersTurn) => {
   const intId = interaction.message.interaction.id;
-  const { amount, user_value, dealer_value } = await readCardsFromDB(intId);
+  const { userid, amount, user_value, dealer_value } = await readCardsFromDB(
+    intId
+  );
 
   console.log("update game: ", user_value);
   // true means win, false means loss, null means game is unfinished
@@ -97,6 +101,17 @@ const updateGame = async (interaction, isDealersTurn) => {
   });
 
   // Add or subtract amount from the db.
+  const amountVal = result ? amount : -amount;
+
+  if (result !== null) {
+    const user = await getUserInfo(userid);
+    await updateUserBalance(
+      user.cashbalance + amountVal,
+      user.bankbalance,
+      userid
+    );
+    await db.none("update blackjack set result=$1", result);
+  }
 
   return result;
 };

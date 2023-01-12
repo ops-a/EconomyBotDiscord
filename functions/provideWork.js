@@ -25,7 +25,7 @@ const provideWork = async (interaction) => {
     });
     return;
   }
-  const { hours, mins } = await readLastTimeStamp("crime", userId);
+  const { hours, mins } = await readLastTimeStamp("work", userId);
 
   if (mins > 0) {
     let reply = "You must wait ";

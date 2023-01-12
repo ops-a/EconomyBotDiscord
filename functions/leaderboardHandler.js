@@ -8,7 +8,6 @@ const leaderboardHandler = async (interaction) => {
 
   let next_btn = len > 10;
 
-  await interaction.deferRelpy();
   await interaction.editReply({
     embeds: [exampleEmbed],
     components: [buildBtns(false, next_btn)],

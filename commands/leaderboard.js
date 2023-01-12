@@ -6,6 +6,7 @@ module.exports = {
     .setName("lb")
     .setDescription("Displays the leaderboard."),
   async execute(interaction) {
+    await interaction.deferReply();
     await leaderboardHandler(interaction);
   },
 };

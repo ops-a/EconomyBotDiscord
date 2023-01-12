@@ -25,10 +25,14 @@
 
 ## Admin commands
 
-15. **/setworkrole <role>** - Adds the role to the list of work roles so that only those who have any of those roles can use the /work command.
+15. **/setworkrole <role> <amount>** - Adds the role to the list of work roles so that only those who have any of those roles can use the /work command.
 16. **/removeworkrole <role>** - Removes the role from the list of the work roles.
-16. **/removerole <role> <user>** - Remove a certain role from the user.
-17. **/setrole <role> <user>** - Set a certain role to the user.
+17. **/listworkroles** - Lists all the work roles.
+18. **/removerole <role> <user>** - Remove a certain role from the user.
+19. **/setrole <role> <user>** - Set a certain role to the user.
+20. **/listincomeroles** - List all the income roles.
+21. **/setincomerole** <role> <amount>** Sets income role.
+22. **/removeincomerole** <role>** Removes income role.
 
 ## Time limits
 

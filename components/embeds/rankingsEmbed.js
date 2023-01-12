@@ -50,7 +50,7 @@ const newEmbed = async (pageNum) => {
     // )
     .addFields({
       name: `\nRankings generated on ${time(newDate, "f")}\n\n`,
-      value: `\n${str}`,
+      value: `\n${str}\n`,
       inline: true,
     })
     // .setImage("https://i.imgur.com/AfFp7pu.png")
