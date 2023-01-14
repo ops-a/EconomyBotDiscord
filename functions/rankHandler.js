@@ -1,35 +1,19 @@
-const { quote, bold } = require("discord.js");
-const getRankingsDesc = require("../db/getRankingsDesc");
+const { blockQuote } = require("discord.js");
+const db = require("../db/dbConnect");
 
 const rankHandler = async (interaction) => {
-  // Rankings sorted by total balance in descending order.
-  const sortedUsersDesc = await getRankingsDesc();
-  await interaction.deferReply();
+  const { id } = await interaction.user;
+  const getUserFromLeveler = await db.oneOrNone("select * from leveler where userid = $1", id)
 
-  // return;
-  const userId = await interaction.user.id;
-  console.log("User id: ", userId);
-
-  // Find the user's rank, that is the index of the user object and return it.
-  for (let i = 0; i < sortedUsersDesc.length; i++) {
-    const { userid, cashbalance, bankbalance } = sortedUsersDesc[i];
-
-    if (userid == userId) {
-      await interaction.editReply({
-        content: quote(`Your rank is ${bold(i + 1)}
-            \n${bold("Cash")}: ${cashbalance}
-            \n${bold("Bank")}: ${bankbalance}
-            \n${bold("Total")}: ${cashbalance + bankbalance}`),
-      });
-
-      return;
-    }
+  if(!getUserFromLeveler) {
+    await interaction.ediReply({ content: blockQuote("You are not registered."), ephemeral: true })
+    return;
   }
 
-  await interaction.editReply({
-    content: quote("Soemthing went wrong!"),
-    ephemeral: true,
-  });
-};
+  const { userid, level, xp, targetxp } = getUserFromLeveler;
+
+  await interaction.editReply({ content: blockQuote(`Level: ${level}\nXP: ${xp}/${targetxp}`)})
+
+}
 
 module.exports = rankHandler;

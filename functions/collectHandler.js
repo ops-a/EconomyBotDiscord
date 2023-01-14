@@ -16,7 +16,7 @@ const collectHandler = async (interaction) => {
   const { roles } = loadJSONasObject("incomeRoles.json");
 
   // Get the role ids that user has
-  const user_roles = interaction.member._roles;
+  const user_roles = await interaction.member._roles;
 
   // For each role that user has, add income if the role qualifies for income,
   let amount = 0;
@@ -35,7 +35,7 @@ const collectHandler = async (interaction) => {
     return;
   }
 
-  const userId = interaction.user.id;
+  const userId = await interaction.user.id;
   const user = await getUserInfo(userId);
 
   await updateUserBalance(user.cashbalance + 50, user.bankbalance, userId);

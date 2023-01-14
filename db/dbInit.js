@@ -8,7 +8,9 @@ createUsersTableQ =
 createTimestampTableQ =
   "create table cmd_tstamps(userid varchar(30) primary key, work_tstamp timestamp, crime_tstamp timestamp, slut_tstamp timestamp, collect_tstamp timestamp, rob_tstamp timestamp)";
 
-createBJTable = "create table blackjack(int_id varchar(30) primary key, userid varchar(30) not null, amount int, tstamp timestamp, result boolean, user_cards text, dealer_cards text, user_value int, dealer_value int)"
+createBJTableQ = "create table blackjack(int_id varchar(30) primary key, userid varchar(30) not null, amount int, tstamp timestamp, result boolean, user_cards text, dealer_cards text, user_value int, dealer_value int)"
+
+createLevelingTableQ = "create table leveler(userid varchar(30) primary key, level int, xp int, targetxp int)"
 // try {
 //   const results = db.manyOrNone("select * from users");
 // } catch (e) {
@@ -20,6 +22,7 @@ createBJTable = "create table blackjack(int_id varchar(30) primary key, userid v
 
 db.none(createUsersTableQ);
 db.none(createTimestampTableQ);
-db.none(createBJTable);
+db.none(createBJTableQ);
+db.none(createLevelingTableQ);
 
 // console.log("results: ", results);

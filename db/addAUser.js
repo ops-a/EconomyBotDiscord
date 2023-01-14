@@ -9,12 +9,15 @@ const addUser = async (interaction) => {
     return;
   }
 
+  // Insert user into the following tables: users, cmd_tstamps, leveler
   const user1 = await db.oneOrNone(
     "insert into users values($1, $2, $3, $4) returning username",
     [id, 0, 0, username]
   );
 
   await db.none("insert into cmd_tstamps values($1, now(), now(), now(), now(), now())", id)
+
+  await db.none("insert into leveler values($1, 0, 0, 100)", id);
 
   if (user1) {
     await interaction.reply(

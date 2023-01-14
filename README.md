@@ -3,7 +3,7 @@
 ## Database Modification Commands
 
 1. **/connect** - Registers the user, if not registered already.
-2. **/addmon <user> <amount>** - Adds money to an account from the supply. Only available to administrators.
+2. **/addtokens <user> <amount>** - Adds money to an account from the supply. Only available to administrators.
 3. **/transfer <user> <amount>** - Transfer money from the user's account to another account. Valid values for <amount> are either a positive number or 'all'.
 4. **/wd <amount>** - Withdraws money from account to cash balance. <amount> is same as transfer.
 5. **/dp <amount>** - Deposits cash balance into the account. <amount> is same as transfer.

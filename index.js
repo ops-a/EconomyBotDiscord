@@ -4,8 +4,17 @@ const path = require("node:path");
 const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
 const performChecks = require("./functions/performChecks");
 const handleBtns = require("./buttonHandlers/handleBtns");
+const levelHandler = require("./functions/levelHandler");
+const getUserInfo = require("./db/getUserInfo");
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+  ],
+});
 
 client.commands = new Collection();
 
@@ -28,15 +37,32 @@ for (const file of commandFiles) {
   }
 }
 
+// On message creation
+client.on(Events.MessageCreate, async (message) => {
+  if (message.author.bot) {
+    return;
+  }
+
+  const user = await getUserInfo(message.author.id);
+
+  if (!user) {
+    console.log("Message sent but user not registered. Ignoring it.");
+    return;
+  }
+  await levelHandler(message);
+});
+
+// On any interaction: application commands or button clicks
 client.on(Events.InteractionCreate, async (interaction) => {
   // If not a slash command, return
-  if(interaction.isButton()) {
+  if (interaction.isButton()) {
     await handleBtns(interaction);
     return;
   }
 
   if (!interaction.isChatInputCommand()) return;
 
+  await levelHandler(interaction)
   const command = interaction.client.commands.get(interaction.commandName);
 
   if (!command) {
@@ -46,6 +72,8 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
   try {
     const value = await performChecks(interaction);
+    // Increase xp by 10.
+    // await increaseXP(interaction.user.id)
 
     if (value) {
       await command.execute(interaction);

@@ -2,14 +2,13 @@ const workBuilder = require("../data/workBuilder");
 const getUserInfo = require("../db/getUserInfo");
 const updateUserBalance = require("../db/updateUserBalance");
 const { loadJSONasObject } = require("../utils/loadJSONData");
-const { bold } = require("discord.js");
+const { bold, blockQuote } = require("discord.js");
 const {
   readLastTimeStamp,
   writeLastTimeStamp,
 } = require("../utils/cmdTimeStamps");
 
-const provideWork = async (interaction) => {
-  const { workStr, earn } = workBuilder();
+const workHandler = async (interaction) => {
   const userId = interaction.user.id;
   const user = await getUserInfo(userId);
 
@@ -25,6 +24,8 @@ const provideWork = async (interaction) => {
     });
     return;
   }
+
+  // Read the last time user ran this command
   const { hours, mins } = await readLastTimeStamp("work", userId);
 
   if (mins > 0) {
@@ -35,14 +36,21 @@ const provideWork = async (interaction) => {
       reply += bold(mins + "m");
     }
     reply += " to work again. Take some rest.";
-    await interaction.reply({ content: reply, ephemeral: true });
+    await interaction.reply({ content: blockQuote(reply), ephemeral: true });
     return;
   }
+  
+  // Get a random work, and random income from work income range
+  const income = Math.floor(Math.random() * (upper - lower) + lower);
+  const workStr = workBuilder() + ` ${income}.`;
+  const { lower, upper } = loadJSONasObject("workIncomes.json")
+  
+
 
   // Update balance, write timestamp and send a reply
-  await interaction.reply({ content: workStr });
+  await interaction.reply({ content: blockQuote(workStr) });
   await updateUserBalance(
-    user.cashbalance + earn,
+    user.cashbalance + income,
     user.bankbalance,
     interaction.user.id
   );
@@ -67,4 +75,4 @@ const hasWorkPermission = (roles) => {
   return false;
 };
 
-module.exports = provideWork;
+module.exports = workHandler;

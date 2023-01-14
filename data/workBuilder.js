@@ -32,8 +32,8 @@ const works = [
 const workBuilder = () => {
     const randomInt = Math.floor(Math.random() * works.length);
     const work = works[randomInt];
-    const workStr = work.job + ` and earn ${work.earn}`
-    return { workStr: workStr, earn: work.earn };
+    const workStr = work.job + ` and earn `
+    return  workStr;
 }
 
 module.exports = workBuilder;

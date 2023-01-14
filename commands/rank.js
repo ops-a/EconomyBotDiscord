@@ -6,6 +6,7 @@ module.exports = {
     .setName("rank")
     .setDescription("Displays the rank on the leaderboard."),
   async execute(interaction) {
+    await interaction.deferReply();
     await rankHandler(interaction);
   },
 };

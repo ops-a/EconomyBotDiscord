@@ -1,4 +1,4 @@
-const { bold } = require("discord.js");
+const { bold, blockQuote } = require("discord.js");
 const { readCardsFromDB } = require("../db/bjCardOps");
 const db = require("../db/dbConnect");
 const { loadJSONasObject, storeObjasJSON } = require("../utils/loadJSONData");
@@ -11,9 +11,18 @@ const updateUserBalance = require("../db/updateUserBalance");
 const bjBtnHandler = async (interaction) => {
   const intId = interaction.message.interaction.id;
   const btnId = interaction.customId;
-  // A new random card out of the remaining cards: remainingCards.json
 
-  // Return an object of <id>: <cardsArr> key-value pairs.
+  // Get the original user and the user that clicked the button
+  const currentUser = interaction.user.id;
+  const originalUser = interaction.message.interaction.user.id;
+
+  // If both the users are not same, return
+  if (currentUser !== originalUser) {
+    await interaction.reply({ content: blockQuote("You don't have this permission."), ephemeral: true})
+    return;
+  }
+
+  // Returns an object of <id>: <cardsArr> key-value pairs.
   const remCardsObj = loadJSONasObject("remainingCards.json");
   const remCards = remCardsObj[intId];
 

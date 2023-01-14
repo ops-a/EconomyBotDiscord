@@ -1,11 +1,10 @@
 const { SlashCommandBuilder } = require("discord.js");
-const addUser = require("../db/addAUser");
 
 module.exports = {
-  data: new SlashCommandBuilder()
+    data: new SlashCommandBuilder()
     .setName("connect")
-    .setDescription("Registers the user to the database."),
-  async execute(interaction) {
-    await addUser(interaction);
-  },
-};
+    .setDescription("Connect to your crypto wallet."),
+    async execute(interaction) {
+        await interaction.reply("You are now connected to your wallet.")
+    }
+}
