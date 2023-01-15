@@ -2,6 +2,7 @@ require("dotenv").config();
 const fs = require("node:fs");
 const path = require("node:path");
 const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
+const logger = require("./logger");
 const performChecks = require("./functions/performChecks");
 const handleBtns = require("./buttonHandlers/handleBtns");
 const levelHandler = require("./functions/levelHandler");
@@ -49,20 +50,30 @@ client.on(Events.MessageCreate, async (message) => {
     console.log("Message sent but user not registered. Ignoring it.");
     return;
   }
-  await levelHandler(message);
+  try {
+    await levelHandler(message);
+  } catch (e) {
+    console.log("Error in MessageCreate Event: ", e);
+    logger.error("Error in MessageCreate Event: ", e);
+  }
 });
 
 // On any interaction: application commands or button clicks
 client.on(Events.InteractionCreate, async (interaction) => {
   // If not a slash command, return
   if (interaction.isButton()) {
-    await handleBtns(interaction);
+    try {
+      await handleBtns(interaction);
+    } catch (e) {
+      console.log("Error in InteractionCreate: ", e);
+      logger.error("Error in InteractionCreate: ", e);
+    }
     return;
   }
 
   if (!interaction.isChatInputCommand()) return;
 
-  await levelHandler(interaction)
+  // await levelHandler(interaction)
   const command = interaction.client.commands.get(interaction.commandName);
 
   if (!command) {
@@ -76,10 +87,15 @@ client.on(Events.InteractionCreate, async (interaction) => {
     // await increaseXP(interaction.user.id)
 
     if (value) {
-      await command.execute(interaction);
+      try {
+        await command.execute(interaction);
+      } catch (e) {
+        logger.error("Error in command.execute(): ", e);
+      }
     }
   } catch (error) {
     console.error(error);
+    logger.log("Error in performChecks(): ", e);
     await interaction.reply({
       content: "There was an error while executing this command.",
       ephemeral: true,

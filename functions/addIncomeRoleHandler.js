@@ -45,6 +45,7 @@ const addIncomeRoleHandler = async (interaction) => {
 
   await interaction.reply({
     content: `Role ${role} added to the income role.`,
+    ephemeral: true
   });
 };
 

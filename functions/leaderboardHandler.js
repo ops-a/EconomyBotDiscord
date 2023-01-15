@@ -4,7 +4,7 @@ const newEmbed = require("../components/embeds/rankingsEmbed");
 
 const leaderboardHandler = async (interaction) => {
   // const rankEmbed = newEmbed(1);
-  const { exampleEmbed, len } = await newEmbed(1);
+  const { exampleEmbed, len } = await newEmbed(1, interaction.user.id);
 
   let next_btn = len > 10;
 

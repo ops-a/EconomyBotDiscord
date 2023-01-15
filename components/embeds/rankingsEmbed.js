@@ -1,4 +1,4 @@
-const { EmbedBuilder, time, userMention } = require("discord.js");
+const { EmbedBuilder, time, userMention, bold } = require("discord.js");
 
 // const leaders = [];
 
@@ -16,49 +16,52 @@ const { EmbedBuilder, time, userMention } = require("discord.js");
 // };
 const getRankingsDesc = require("../../db/getRankingsDesc");
 
-const getStrAndLen = async (pageNum) => {
-  const values = await getRankingsDesc();
-  const len = values.length;
-  let str = "";
+// const getStrAndLen = async (pageNum) => {
+//   const values = await getRankingsDesc();
+//   const len = values.length;
+//   let str = "";
 
-  for (let i = 10 * (pageNum - 1); i < 10 * pageNum && i < values.length; i++) {
-    const value = values[i];
-    str += `\n${i + 1}. ${userMention(value.userid)}  : ${
-      value.cashbalance + value.bankbalance
-    }`;
-  }
-  console.log("Leaderboard Str: ", str);
+//   for (let i = 10 * (pageNum - 1); i < 10 * pageNum && i < values.length; i++) {
+//     const value = values[i];
+//     str += `\n${i + 1}. ${userMention(value.userid)}  : ${
+//       value.cashbalance + value.bankbalance
+//     }`;
+//   }
+//   console.log("Leaderboard Str: ", str);
 
-  return { str, len };
-};
+//   return { str, len };
+// };
 
-const newEmbed = async (pageNum) => {
+const newEmbed = async (pageNum, id) => {
   const newDate = new Date();
-  const { str, len } = await getStrAndLen(pageNum);
+  // const { str, len } = await getStrAndLen(pageNum);
+  const { values, rank } = await getRankingsDesc(id);
+  const len = values.length;
 
   // console.log('Date: ', newDate, ' time: ', time(newDate))
   const exampleEmbed = new EmbedBuilder()
     .setColor(0x0099ff)
     .setTitle("CannaFarm Club Leaderboard")
-    .setDescription(null)
-    // .setThumbnail("https://i.imgur.com/AfFp7pu.png")
-    // .addFields(
-    //   { name: "Regular field title", value: "Some value here" },
-    //   { name: "\u200B", value: "\u200B" },
-    //   { name: "Inline field title", value: "Some value here", inline: true },
-    //   { name: "Inline field title", value: "Some value here", inline: true }
-    // )
-    .addFields({
-      name: `\nRankings generated on ${time(newDate, "f")}\n\n`,
-      value: `\n${str}\n`,
-      inline: true,
-    })
-    // .setImage("https://i.imgur.com/AfFp7pu.png")
+    .setDescription(`\nRankings generated on ${time(newDate, "f")}`)
     .setTimestamp()
     .setFooter({
-      text: `Page ${pageNum} of ${Math.floor((len + 9) / 10)}`,
+      text: `\n\nPage ${pageNum} of ${Math.floor((len + 9) / 10)}`,
     });
 
+  for (let i = 10 * (pageNum - 1); i < 10 * pageNum && i < values.length; i++) {
+    const newValue = values[i];
+    exampleEmbed.addFields({
+      name: `\u200b`,
+      value: `${i + 1}. ${userMention(newValue.userid)} : ${
+        newValue.cashbalance + newValue.bankbalance
+      }`,
+    });
+  }
+
+  exampleEmbed.addFields({
+    name: "\n\u200b\n",
+    value: `\nYour rank is ${bold(rank)}.\n\n`
+  })
   return { exampleEmbed, len };
 };
 

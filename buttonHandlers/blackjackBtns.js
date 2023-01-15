@@ -18,7 +18,7 @@ const bjBtnHandler = async (interaction) => {
 
   // If both the users are not same, return
   if (currentUser !== originalUser) {
-    await interaction.reply({ content: blockQuote("You don't have this permission."), ephemeral: true})
+    await interaction.editReply({ content: blockQuote("You don't have this permission."), ephemeral: true})
     return;
   }
 

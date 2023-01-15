@@ -47,7 +47,7 @@ const levelHandler = async (event) => {
 
     channel.send(
       blockQuote(
-        `Congratulations! You have progressed to Level ${bold(level)}.`
+        `Congratulations ${userMention(userid)}! You have progressed to Level ${bold(level)}.`
       )
     );
     console.log("Updated level: ", updatedLevel);
